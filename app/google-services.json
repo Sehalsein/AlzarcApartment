@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "433721480502",
+    "firebase_url": "https://alzarcapartment.firebaseio.com",
+    "project_id": "alzarcapartment",
+    "storage_bucket": "alzarcapartment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433721480502:android:64ef19cf14a4ede2",
+        "android_client_info": {
+          "package_name": "com.sehalsein.alzarcapartment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433721480502-k7knp1conp4ei922jpbtlbtl1t5tonku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sehalsein.alzarcapartment",
+            "certificate_hash": "b32b424a57028147c15ab1a9e0db45f4ccb33eed"
+          }
+        },
+        {
+          "client_id": "433721480502-khj5d8lr4nh0vn4smcvcqa4csdqiualv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATHVTWXBF8SwEkklSWO_kSJMDCJztO-28"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433721480502-khj5d8lr4nh0vn4smcvcqa4csdqiualv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
