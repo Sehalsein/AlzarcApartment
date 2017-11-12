@@ -47,7 +47,6 @@ public class AdminNotification extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,7 +62,7 @@ public class AdminNotification extends Fragment {
         myRef = database.getReference(NODE);
 
         //Inititalizing Recycler View
-        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerView);
+        recyclerView = layout.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         loadNotification();

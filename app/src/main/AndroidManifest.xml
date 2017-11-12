@@ -21,7 +21,13 @@
             android:name=".AdminActivities.AdminHomeActivity"
             android:label="@string/title_activity_admin_home" />
         <activity android:name=".Activities.CreateNewUser" />
-        <activity android:name=".AdminActivities.AdminNewNotificationActivity"></activity>
+        <activity android:name=".AdminActivities.AdminNewNotificationActivity" />
+        <activity android:name=".AdminActivities.AdminOwnerDetail" />
+        <activity
+            android:name=".AdminActivities.AdminMeetingActivity"
+            android:label="@string/title_activity_admin_meeting"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AdminActivities.AdminMeetingDetailActivity"></activity>
     </application>
 
 </manifest>
