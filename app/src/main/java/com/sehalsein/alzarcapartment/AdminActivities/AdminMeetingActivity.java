@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.sehalsein.alzarcapartment.Adapter.ApartmentListAdapter;
 import com.sehalsein.alzarcapartment.Adapter.MeetingAdapter;
 import com.sehalsein.alzarcapartment.Adapter.NotificationAdapter;
+import com.sehalsein.alzarcapartment.Miscellaneous.UserData;
 import com.sehalsein.alzarcapartment.Model.FlatDetail;
 import com.sehalsein.alzarcapartment.Model.MeetingDetail;
 import com.sehalsein.alzarcapartment.Model.NotificationDetail;
@@ -45,7 +46,7 @@ public class AdminMeetingActivity extends AppCompatActivity implements TextWatch
     private GeometricProgressView progressView;
     private RelativeLayout emptyView;
     private EditText searchBar;
-
+    private String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class AdminMeetingActivity extends AppCompatActivity implements TextWatch
         emptyView = findViewById(R.id.empty_view);
         emptyView.setVisibility(View.INVISIBLE);
         showProgressView();
+        userType = UserData.userType;
 
         NODE = getResources().getString(R.string.firebase_database_node_meeting_detail);
         myRef = database.getReference(NODE);
@@ -70,6 +72,11 @@ public class AdminMeetingActivity extends AppCompatActivity implements TextWatch
         loadNotification();
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        if(UserData.userType.equals("user")){
+            fab.setVisibility(View.GONE);
+        }else{
+            fab.setVisibility(View.VISIBLE);
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +108,7 @@ public class AdminMeetingActivity extends AppCompatActivity implements TextWatch
                     emptyView.setVisibility(View.INVISIBLE);
                     Collections.reverse(meetingDetailList);
                     filteredmeetingDetailList = meetingDetailList;
-                    recyclerView.setAdapter(new MeetingAdapter(meetingDetailList, AdminMeetingActivity.this,"admin"));
+                    recyclerView.setAdapter(new MeetingAdapter(meetingDetailList, AdminMeetingActivity.this,userType));
                     searchBar.addTextChangedListener(AdminMeetingActivity.this);
                 } else {
                     emptyView.setVisibility(View.VISIBLE);
@@ -130,7 +137,7 @@ public class AdminMeetingActivity extends AppCompatActivity implements TextWatch
                 memeberListToReturn.add(memeber);
             }
         }
-        recyclerView.setAdapter(new MeetingAdapter(memeberListToReturn, AdminMeetingActivity.this,"admin"));
+        recyclerView.setAdapter(new MeetingAdapter(memeberListToReturn, AdminMeetingActivity.this,userType));
     }
 
 

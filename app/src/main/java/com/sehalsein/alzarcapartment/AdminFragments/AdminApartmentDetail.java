@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sehalsein.alzarcapartment.Adapter.ApartmentListAdapter;
+import com.sehalsein.alzarcapartment.Miscellaneous.UserData;
 import com.sehalsein.alzarcapartment.Model.FlatDetail;
 import com.sehalsein.alzarcapartment.R;
 
@@ -54,6 +56,7 @@ public class AdminApartmentDetail extends Fragment implements TextWatcher{
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_admin_apartment_detail, container, false);
 
+
         searchBar = layout.findViewById(R.id.editTextSearch);
         NODE = getResources().getString(R.string.firebase_database_node_apartment_detail);
         mRef = mDatabase.getReference(NODE);
@@ -68,6 +71,9 @@ public class AdminApartmentDetail extends Fragment implements TextWatcher{
         return layout;
     }
 
+    private void makeToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
     private void hideProgressView(){
         progressView.setVisibility(View.INVISIBLE);
     }

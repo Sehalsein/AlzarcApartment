@@ -11,4 +11,5 @@ public class UserData {
 
     public static FlatDetail flatDetail;
     public static MeetingDetail meetingDetail;
+    public static String userType;
 }

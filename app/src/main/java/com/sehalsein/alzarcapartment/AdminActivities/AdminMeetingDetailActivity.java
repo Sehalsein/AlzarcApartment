@@ -69,7 +69,7 @@ public class AdminMeetingDetailActivity extends AppCompatActivity {
         titleEditText.setText(notificationDetail.getTitle());
         messageEditText.setText(notificationDetail.getMessage());
         topicEditText.setText(notificationDetail.getTopic());
-        
+
         if (notificationDetail.getResults() != null) {
             resultEditText.setText(notificationDetail.getResults());
         }
@@ -96,6 +96,7 @@ public class AdminMeetingDetailActivity extends AppCompatActivity {
         }
 
         String key = id;
+        notificationDetail.setId(key);
         myRef.child(key).setValue(notificationDetail);
         this.finish();
     }

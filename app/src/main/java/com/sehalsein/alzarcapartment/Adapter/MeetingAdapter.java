@@ -30,7 +30,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private String userType;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-
     public MeetingAdapter() {
     }
 
@@ -92,7 +91,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return meetingDetailList.size();
     }
 
-
     private static String getCurrentTimeStamp(){
         try {
 
@@ -106,6 +104,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return null;
         }
     }
+
     private void makeToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }

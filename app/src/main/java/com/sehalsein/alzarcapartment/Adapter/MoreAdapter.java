@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.sehalsein.alzarcapartment.Activities.LoginActivity;
 import com.sehalsein.alzarcapartment.AdminActivities.AdminMeetingActivity;
 import com.sehalsein.alzarcapartment.Model.MoreOption;
 import com.sehalsein.alzarcapartment.R;
@@ -52,6 +54,12 @@ public class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     case "adminMeeting":
                         openMeetingAdmin();
                         break;
+                    case "Logout":
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(context.getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                        break;
                     default:
                         makeToast("Coming Soon");
                 }
@@ -71,6 +79,7 @@ public class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void makeToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
+
 
     public class MoreOptionViewHolder extends RecyclerView.ViewHolder {
 

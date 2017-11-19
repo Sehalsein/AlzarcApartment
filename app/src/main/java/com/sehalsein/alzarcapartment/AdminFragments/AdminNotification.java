@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sehalsein.alzarcapartment.Adapter.NotificationAdapter;
 import com.sehalsein.alzarcapartment.AdminActivities.AdminNewNotificationActivity;
+import com.sehalsein.alzarcapartment.Miscellaneous.UserData;
 import com.sehalsein.alzarcapartment.Model.NotificationDetail;
 import com.sehalsein.alzarcapartment.R;
 
@@ -68,6 +69,13 @@ public class AdminNotification extends Fragment {
         loadNotification();
 
         FloatingActionButton fab = layout.findViewById(R.id.fab);
+
+        if(UserData.userType.equals("user")){
+            fab.setVisibility(View.GONE);
+        }else{
+            fab.setVisibility(View.VISIBLE);
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

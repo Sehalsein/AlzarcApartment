@@ -56,8 +56,8 @@
             android:id="@+id/emailId_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email Id"
-            android:inputType="textEmailAddress"
+            android:hint="Phone Number"
+            android:inputType="phone"
             android:maxLines="1" />
 
     </android.support.design.widget.TextInputLayout>
@@ -80,6 +80,7 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <android.support.design.widget.TextInputLayout
+        android:visibility="gone"
         android:id="@+id/textInputLayout2"
         android:layout_width="328dp"
         android:layout_height="55dp"
