@@ -1,7 +1,6 @@
 package com.sehalsein.alzarcapartment.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,76 +14,58 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.sehalsein.alzarcapartment.AdminActivities.AdminOwnerDetail;
-import com.sehalsein.alzarcapartment.Miscellaneous.UserData;
 import com.sehalsein.alzarcapartment.Model.FlatDetail;
+import com.sehalsein.alzarcapartment.Model.SecurityDetail;
 import com.sehalsein.alzarcapartment.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sehalsein on 12/11/17.
+ * Created by sehalsein on 21/11/17.
  */
 
-public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdapter.ApartmentListViewHolder> {
+public class SecurityAdapter extends RecyclerView.Adapter<SecurityAdapter.ApartmentListViewHolder> {
 
+    private List<SecurityDetail> flatDetailList = new ArrayList<>();
     private Context context;
-    private List<FlatDetail> flatDetailList = new ArrayList<>();
     private String userType;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
     private static String NODE = null;
 
-    public ApartmentListAdapter() {
+
+    public SecurityAdapter() {
     }
 
-    public ApartmentListAdapter(Context context, List<FlatDetail> flatDetailList, String userType) {
-        this.context = context;
+    public SecurityAdapter(List<SecurityDetail> flatDetailList, Context context, String userType) {
         this.flatDetailList = flatDetailList;
+        this.context = context;
         this.userType = userType;
-        NODE = context.getResources().getString(R.string.firebase_database_node_apartment_detail);
+        NODE = context.getResources().getString(R.string.firebase_database_node_security_detail);
         myRef = database.getReference(NODE);
     }
 
     @Override
     public ApartmentListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_apartment_info, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_security_detail, parent, false);
         ApartmentListViewHolder searchViewHolder = new ApartmentListViewHolder(view);
         return searchViewHolder;
     }
 
-
     @Override
     public void onBindViewHolder(ApartmentListViewHolder holder, int position) {
-        final FlatDetail detail = flatDetailList.get(position);
+        final SecurityDetail detail = flatDetailList.get(position);
 
-        holder.flatNo.setText(detail.getBlockNo() + "" + detail.getDoorNo());
-        holder.ownerName.setText(detail.getName());
+        holder.flatNo.setText(detail.getName());
+        holder.ownerName.setText(detail.getTiming());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (userType) {
                     case "admin":
-                        //makeToast("ADMIN");
-                        openOwnerDetailAdmin(detail);
-                        break;
-                    case "user":
-                        makeToast("User");
-                        break;
-                    default:
-                        makeToast("Invalid User");
-                }
-            }
-        });
-
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                switch (userType){
-                    case "admin":
+                        // makeToast("ADMIN");
                         BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
                                 .expandOnStart(true)
                                 .setMode(BottomSheetBuilder.MODE_LIST)
@@ -101,20 +82,17 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdap
                                 })
                                 .createDialog();
                         dialog.show();
+                        //openOwnerDetailAdmin(detail);
                         break;
+                    case "user":
+                        // makeToast("User");
+                        break;
+                    default:
+                        //makeToast("Invalid User");
                 }
-
-                return true;
             }
         });
     }
-
-
-    private void openOwnerDetailAdmin(FlatDetail data) {
-        UserData.flatDetail = data;
-        context.startActivity(new Intent(context, AdminOwnerDetail.class));
-    }
-
 
     private void makeToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -124,12 +102,6 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdap
     public int getItemCount() {
         return flatDetailList.size();
     }
-
-    public ApartmentListAdapter(Context context, List<FlatDetail> flatDetailList) {
-        this.context = context;
-        this.flatDetailList = flatDetailList;
-    }
-
 
     public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
 
@@ -144,5 +116,4 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdap
             this.itemView = itemView;
         }
     }
-
 }

@@ -49,20 +49,24 @@ public class AdminMoreOption extends Fragment {
 
             String title[] = {
                     "Meetings",
+                    "Security",
                     "Logout",
             };
 
             String description[] = {
                     "View previous meetings",
+                    "View security detail",
                     "",
             };
 
             String code[] = {
                     "adminMeeting",
+                    "adminSecurity",
                     "Logout",
             };
 
             int icons[] = {
+                    R.drawable.ic_notifications_black_24dp,
                     R.drawable.ic_notifications_black_24dp,
                     R.drawable.ic_notifications_black_24dp,
             };

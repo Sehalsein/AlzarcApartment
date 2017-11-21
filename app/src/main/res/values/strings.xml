@@ -17,7 +17,9 @@
 
 
     <string name="firebase_database_node_apartment_detail">apartment_detail</string>
+    <string name="firebase_database_node_security_detail">security_detail</string>
     <string name="firebase_database_node_meeting_detail">meeting_detail</string>
     <string name="firebase_database_node_notifications">notifications</string>
     <string name="title_activity_admin_meeting">AdminMeetingActivity</string>
+    <string name="title_activity_admin_security">AdminSecurityActivity</string>
 </resources>

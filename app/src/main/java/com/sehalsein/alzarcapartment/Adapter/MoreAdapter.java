@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sehalsein.alzarcapartment.Activities.LoginActivity;
 import com.sehalsein.alzarcapartment.AdminActivities.AdminMeetingActivity;
+import com.sehalsein.alzarcapartment.AdminActivities.AdminSecurityActivity;
 import com.sehalsein.alzarcapartment.Model.MoreOption;
 import com.sehalsein.alzarcapartment.R;
 
@@ -54,6 +55,9 @@ public class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     case "adminMeeting":
                         openMeetingAdmin();
                         break;
+                    case "adminSecurity":
+                        openSecurityAdmin();
+                        break;
                     case "Logout":
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(context.getApplicationContext(), LoginActivity.class);
@@ -65,6 +69,10 @@ public class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
+    }
+
+    private void openSecurityAdmin() {
+        context.startActivity(new Intent(context, AdminSecurityActivity.class));
     }
 
     private void openMeetingAdmin() {

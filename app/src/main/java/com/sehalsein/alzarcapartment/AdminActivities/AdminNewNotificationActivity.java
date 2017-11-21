@@ -54,7 +54,6 @@ public class AdminNewNotificationActivity extends AppCompatActivity {
         titleEditText.setAdapter(getTitleAdapter(this));
         messageEditText = findViewById(R.id.message_edit_text);
 
-
         mAPIService = ApiUtils.getAPIService();
         NODE = getResources().getString(R.string.firebase_database_node_notifications);
         myRef = database.getReference(NODE);

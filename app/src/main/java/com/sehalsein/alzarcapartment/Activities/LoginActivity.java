@@ -117,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 UserData.userType = "user";
             }
+           // openAdminPage();
             phoneVerification();
         } else {
             phoneNumberEditText.setError("Please enter a valid phone number!!");

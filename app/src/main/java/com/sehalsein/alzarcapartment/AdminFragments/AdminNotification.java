@@ -42,6 +42,7 @@ public class AdminNotification extends Fragment {
     private List<NotificationDetail> notificationDetailList =  new ArrayList<>();
     private GeometricProgressView progressView;
     private RelativeLayout emptyView;
+    private String userType;
 
 
     public AdminNotification() {
@@ -69,7 +70,7 @@ public class AdminNotification extends Fragment {
         loadNotification();
 
         FloatingActionButton fab = layout.findViewById(R.id.fab);
-
+        userType = UserData.userType;
         if(UserData.userType.equals("user")){
             fab.setVisibility(View.GONE);
         }else{
@@ -106,7 +107,7 @@ public class AdminNotification extends Fragment {
                 if (!notificationDetailList.isEmpty()) {
                     emptyView.setVisibility(View.INVISIBLE);
                     Collections.reverse(notificationDetailList);
-                    recyclerView.setAdapter(new NotificationAdapter(notificationDetailList, getActivity()));
+                    recyclerView.setAdapter(new NotificationAdapter(notificationDetailList, getActivity(),userType));
 
                 } else {
                     emptyView.setVisibility(View.VISIBLE);

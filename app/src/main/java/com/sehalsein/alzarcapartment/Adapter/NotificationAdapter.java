@@ -3,10 +3,16 @@ package com.sehalsein.alzarcapartment.Adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog;
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sehalsein.alzarcapartment.Model.NotificationDetail;
 import com.sehalsein.alzarcapartment.R;
 
@@ -23,15 +29,22 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private List<NotificationDetail> notificationDetailList;
     private Context context;
+    private String userType;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef;
+    private static String NODE = null;
 
 
     public NotificationAdapter() {
     }
 
-    public NotificationAdapter(List<NotificationDetail> notificationDetailList, Context context) {
+    public NotificationAdapter(List<NotificationDetail> notificationDetailList, Context context,String userType) {
         this.notificationDetailList = notificationDetailList;
         this.context = context;
+        this.userType = userType;
+        NODE = context.getResources().getString(R.string.firebase_database_node_notifications);
+        myRef = database.getReference(NODE);
     }
 
     @Override
@@ -51,6 +64,39 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             e.printStackTrace();
         }
         notificationContentViewHolder.setMessage(notificationDetail.getMessage());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (userType) {
+                    case "admin":
+                        // makeToast("ADMIN");
+                        BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+                                .expandOnStart(true)
+                                .setMode(BottomSheetBuilder.MODE_LIST)
+                                .setMenu(R.menu.bottom_menu)
+                                .setItemClickListener(new BottomSheetItemClickListener() {
+                                    @Override
+                                    public void onBottomSheetItemClick(MenuItem item) {
+                                        switch (item.getItemId()) {
+                                            case R.id.delete:
+                                                myRef.child(notificationDetail.getId()).setValue(null);
+                                                break;
+                                        }
+                                    }
+                                })
+                                .createDialog();
+                        dialog.show();
+                        //openOwnerDetailAdmin(detail);
+                        break;
+                    case "user":
+                        // makeToast("User");
+                        break;
+                    default:
+                        //makeToast("Invalid User");
+                }
+            }
+        });
     }
 
     @Override
