@@ -2,11 +2,13 @@ package com.sehalsein.alzarcapartment.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +64,13 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdap
         holder.flatNo.setText(detail.getBlockNo() + "" + detail.getDoorNo());
         holder.ownerName.setText(detail.getName());
 
+        if(detail.getId().equals(UserData.ownerflatDetail.getId())){
+            holder.imageView.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_home_gold_24dp));
+        }else{
+            holder.imageView.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_home_black_24dp));
+        }
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +110,12 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdap
                                 })
                                 .createDialog();
                         dialog.show();
+                    case "user":
+                        makeToast("User");
                         break;
+                    default:
+                        makeToast("Invalid User");
+                    
                 }
 
                 return true;
@@ -111,7 +125,13 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdap
 
 
     private void openOwnerDetailAdmin(FlatDetail data) {
+        if(data.getId().equals(UserData.ownerflatDetail.getId())){
+            UserData.isOwner = true;
+        }else{
+            UserData.isOwner = false;
+        }
         UserData.flatDetail = data;
+
         context.startActivity(new Intent(context, AdminOwnerDetail.class));
     }
 
@@ -135,12 +155,13 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdap
 
         private TextView flatNo, ownerName;
         private View itemView;
-
+        private ImageView imageView;
 
         public ApartmentListViewHolder(View itemView) {
             super(itemView);
             flatNo = (TextView) itemView.findViewById(R.id.flat_number_text_view);
             ownerName = (TextView) itemView.findViewById(R.id.owner_name_text_view);
+            imageView = itemView.findViewById(R.id.type_image_view);
             this.itemView = itemView;
         }
     }

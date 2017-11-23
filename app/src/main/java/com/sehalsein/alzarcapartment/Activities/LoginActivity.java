@@ -50,7 +50,10 @@ public class LoginActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private static String NODE = null;
     private static String phoneNumber;
+    private FlatDetail flatDetail;
+   // private String adminNumber ="8722564630";
     private String adminNumber ="7019823512";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
         phoneNumberEditText = findViewById(R.id.emailId_editText);
 
-        //phoneNumberEditText.setText("7019823512");
+        phoneNumberEditText.setText(adminNumber);
         createAccount = findViewById(R.id.create_account);
         FirebaseInstanceId.getInstance().getToken();
         FirebaseMessaging.getInstance().subscribeToTopic("notifications");
@@ -117,8 +120,8 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 UserData.userType = "user";
             }
-           // openAdminPage();
-            phoneVerification();
+            openAdminPage();
+            //phoneVerification();
         } else {
             phoneNumberEditText.setError("Please enter a valid phone number!!");
         }
@@ -196,6 +199,7 @@ public class LoginActivity extends AppCompatActivity {
         for(int i = 0;i<flatDetailList.size();i++){
 
             if(flatDetailList.get(i).getPhoneNumber().equals("+91"+phoneNumber)){
+                flatDetail = flatDetailList.get(i);
                 return true;
             }
         }
@@ -240,6 +244,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void openAdminPage() {
+        UserData.ownerflatDetail = flatDetail;
         startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
     }
 

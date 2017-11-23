@@ -1,114 +1,78 @@
 package com.sehalsein.alzarcapartment.AdminActivities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sehalsein.alzarcapartment.Miscellaneous.APIService;
 import com.sehalsein.alzarcapartment.Miscellaneous.ApiUtils;
-import com.sehalsein.alzarcapartment.Miscellaneous.UserData;
-import com.sehalsein.alzarcapartment.Model.MeetingDetail;
 import com.sehalsein.alzarcapartment.Model.NotificationDetail;
 import com.sehalsein.alzarcapartment.R;
 
-import net.bohush.geometricprogressview.GeometricProgressView;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AdminMeetingDetailActivity extends AppCompatActivity {
+public class AdminAddNewEvent extends AppCompatActivity {
 
     private EditText messageEditText;
-    private EditText topicEditText;
-    private EditText resultEditText;
     private AutoCompleteTextView titleEditText;
-    private MeetingDetail meetingDetail;
+    private NotificationDetail notificationDetail;
     private APIService mAPIService;
+
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
+
     private static String NODE = null;
-    private String id;
-    private NotificationDetail notificationDetail;
     private static String NOTIFICATION_NODE = null;
     private DatabaseReference myNotificationRef;
+
+
+    private ArrayAdapter<String> getTitleAdapter(Context context) {
+        String[] addresses = {"Sports day", "Annual day", "Flag hosting", "Festival"};
+        return new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, addresses);
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_meeting_detail);
+        setContentView(R.layout.activity_admin_add_new_event);
 
         titleEditText = findViewById(R.id.title_edit_text);
+        titleEditText.setAdapter(getTitleAdapter(this));
         messageEditText = findViewById(R.id.message_edit_text);
-        topicEditText = findViewById(R.id.topic_edit_text);
-        resultEditText = findViewById(R.id.result_edit_text);
-
-        id = getIntent().getStringExtra("EXTRA_ID");
 
         mAPIService = ApiUtils.getAPIService();
-        NODE = getResources().getString(R.string.firebase_database_node_meeting_detail);
-        myRef = database.getReference(NODE);
+        NODE = getResources().getString(R.string.firebase_database_node_event_detail);
 
+        myRef = database.getReference(NODE);
 
         NOTIFICATION_NODE = getResources().getString(R.string.firebase_database_node_notifications);
         myNotificationRef = database.getReference(NOTIFICATION_NODE);
-
-        if (id != null) {
-            meetingDetail = UserData.meetingDetail;
-            updateUI();
-        }
     }
 
-    private void updateUI() {
-        titleEditText.setText(meetingDetail.getTitle());
-        messageEditText.setText(meetingDetail.getMessage());
-        topicEditText.setText(meetingDetail.getTopic());
-
-        if (meetingDetail.getResults() != null) {
-            resultEditText.setText(meetingDetail.getResults());
-        }
-    }
 
     public void sendNotification(View view) {
         //showProgressDialog();
         if (validate()) {
-            if (id != null) {
-                updateNotification();
-            } else {
-                sendNotification();
-            }
-
+            sendNotification();
+            //sendPost(notificationDetail.getTitle(), notificationDetail.getMessage());
         } else {
             makeToast("Please fill in all the information.");
         }
     }
-
-    private void updateNotification() {
-
-        if (!isEmpty(resultEditText)) {
-            meetingDetail.setResults(resultEditText.getText().toString());
-        }
-
-        String key = id;
-        meetingDetail.setId(key);
-        myRef.child(key).setValue(meetingDetail);
-        this.finish();
-    }
-
 
     public void showResponse(String response) {
         makeToast(response);
@@ -145,26 +109,16 @@ public class AdminMeetingDetailActivity extends AppCompatActivity {
 
     private void sendNotification() {
         String key = myRef.child(NODE).push().getKey();
-        meetingDetail.setId(key);
-        myRef.child(key).setValue(meetingDetail);
-
-        notificationDetail = new NotificationDetail();
         notificationDetail.setId(key);
-        notificationDetail.setTimeStamp(getCurrentTimeStamp());
-        notificationDetail.setTitle("Meeting");
-        notificationDetail.setMessage(meetingDetail.getTitle()+" "+meetingDetail.getMessage());
-        notificationDetail.setTopic("meeting");
-
+        notificationDetail.setTopic("event");
+        myRef.child(key).setValue(notificationDetail);
         myNotificationRef.child(key).setValue(notificationDetail);
-
-
         this.finish();
     }
 
     private boolean validate() {
         String title = null;
         String message = null;
-        String topic = null;
 
         if (isEmpty(titleEditText)) {
             titleEditText.setError("Enter title");
@@ -178,15 +132,8 @@ public class AdminMeetingDetailActivity extends AppCompatActivity {
             message = messageEditText.getText().toString();
         }
 
-        if (isEmpty(topicEditText)) {
-            topicEditText.setError("Enter topic");
-        } else {
-            topic = topicEditText.getText().toString();
-        }
-
         if (title != null && message != null) {
-            meetingDetail = new MeetingDetail(title, message, getCurrentTimeStamp());
-            meetingDetail.setTopic(topic);
+            notificationDetail = new NotificationDetail(title, message, getCurrentTimeStamp());
             return true;
         } else {
             return false;
@@ -194,7 +141,7 @@ public class AdminMeetingDetailActivity extends AppCompatActivity {
     }
 
     private void makeToast(String message) {
-        Toast.makeText(AdminMeetingDetailActivity.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(AdminAddNewEvent.this, message, Toast.LENGTH_SHORT).show();
     }
 
     public static String getCurrentTimeStamp() {

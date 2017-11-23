@@ -153,6 +153,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -180,6 +181,15 @@
             </LinearLayout>
 
         </LinearLayout>
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimary"
+            android:onClick="editDetail"
+            android:text="Edit"
+            android:textColor="#fff" />
     </LinearLayout>
 </LinearLayout>
 

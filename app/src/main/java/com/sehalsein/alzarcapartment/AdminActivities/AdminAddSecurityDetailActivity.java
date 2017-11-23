@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sehalsein.alzarcapartment.Miscellaneous.APIService;
 import com.sehalsein.alzarcapartment.Model.MeetingDetail;
+import com.sehalsein.alzarcapartment.Model.NotificationDetail;
 import com.sehalsein.alzarcapartment.Model.SecurityDetail;
 import com.sehalsein.alzarcapartment.R;
 
@@ -28,6 +29,9 @@ public class AdminAddSecurityDetailActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private static String NODE = null;
     private String id;
+    private NotificationDetail notificationDetail;
+    private static String NOTIFICATION_NODE = null;
+    private DatabaseReference myNotificationRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,10 @@ public class AdminAddSecurityDetailActivity extends AppCompatActivity {
 
         NODE = getResources().getString(R.string.firebase_database_node_security_detail);
         myRef = database.getReference(NODE);
+
+
+        NOTIFICATION_NODE = getResources().getString(R.string.firebase_database_node_notifications);
+        myNotificationRef = database.getReference(NOTIFICATION_NODE);
     }
 
 
@@ -57,6 +65,14 @@ public class AdminAddSecurityDetailActivity extends AppCompatActivity {
         String key = myRef.child(NODE).push().getKey();
         securityDetail.setId(key);
         myRef.child(key).setValue(securityDetail);
+        notificationDetail = new NotificationDetail();
+        notificationDetail.setId(key);
+        notificationDetail.setTimeStamp(getCurrentTimeStamp());
+        notificationDetail.setTitle("Security");
+        notificationDetail.setMessage(securityDetail.getName()+" "+securityDetail.getTiming());
+        notificationDetail.setTopic("security");
+
+        myNotificationRef.child(key).setValue(notificationDetail);
         this.finish();
     }
 
@@ -99,6 +115,20 @@ public class AdminAddSecurityDetailActivity extends AppCompatActivity {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public static String getCurrentTimeStamp() {
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateTime = dateFormat.format(new Date()); // Find todays date
+
+            return currentDateTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
         }
     }
 

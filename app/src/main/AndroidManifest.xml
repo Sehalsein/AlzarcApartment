@@ -32,7 +32,13 @@
             android:name=".AdminActivities.AdminSecurityActivity"
             android:label="@string/title_activity_admin_security"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AdminActivities.AdminAddSecurityDetailActivity"></activity>
+        <activity android:name=".AdminActivities.AdminAddSecurityDetailActivity" />
+        <activity
+            android:name=".AdminActivities.AdminEventActivity"
+            android:label="@string/title_activity_admin_event"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AdminActivities.AdminAddNewEvent" />
+        <activity android:name=".AdminActivities.AdminEditOwnerDetail"></activity>
     </application>
 
 </manifest>

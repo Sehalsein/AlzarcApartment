@@ -10,6 +10,8 @@ import com.sehalsein.alzarcapartment.Model.MeetingDetail;
 public class UserData {
 
     public static FlatDetail flatDetail;
+    public static FlatDetail ownerflatDetail;
     public static MeetingDetail meetingDetail;
     public static String userType;
+    public static boolean isOwner;
 }

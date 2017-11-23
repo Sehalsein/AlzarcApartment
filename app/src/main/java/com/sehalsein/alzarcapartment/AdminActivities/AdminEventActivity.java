@@ -8,10 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -20,12 +17,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sehalsein.alzarcapartment.Adapter.ApartmentListAdapter;
-import com.sehalsein.alzarcapartment.Adapter.MeetingAdapter;
-import com.sehalsein.alzarcapartment.Adapter.NotificationAdapter;
+import com.sehalsein.alzarcapartment.Adapter.EventAdapter;
 import com.sehalsein.alzarcapartment.Miscellaneous.UserData;
-import com.sehalsein.alzarcapartment.Model.FlatDetail;
-import com.sehalsein.alzarcapartment.Model.MeetingDetail;
 import com.sehalsein.alzarcapartment.Model.NotificationDetail;
 import com.sehalsein.alzarcapartment.R;
 
@@ -35,52 +28,52 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AdminMeetingActivity extends AppCompatActivity implements TextWatcher {
+public class AdminEventActivity extends AppCompatActivity {
+
 
     private RecyclerView recyclerView;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
     private static String NODE = null;
-    private List<MeetingDetail> meetingDetailList =  new ArrayList<>();
-    private List<MeetingDetail> filteredmeetingDetailList =  new ArrayList<>();
+    private List<NotificationDetail> notificationDetailList =  new ArrayList<>();
     private GeometricProgressView progressView;
     private RelativeLayout emptyView;
-    private EditText searchBar;
     private String userType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_meeting);
+        setContentView(R.layout.activity_admin_event);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        searchBar = findViewById(R.id.editTextSearch);
         progressView = findViewById(R.id.progressView);
         emptyView = findViewById(R.id.empty_view);
         emptyView.setVisibility(View.INVISIBLE);
-        showProgressView();
-        userType = UserData.userType;
 
-        NODE = getResources().getString(R.string.firebase_database_node_meeting_detail);
+
+        NODE = getResources().getString(R.string.firebase_database_node_event_detail);
         myRef = database.getReference(NODE);
 
-        //Inititalizing Recycler View
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(AdminMeetingActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(AdminEventActivity.this, LinearLayoutManager.VERTICAL, false));
 
         loadNotification();
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        userType = UserData.userType;
         if(UserData.userType.equals("user")){
             fab.setVisibility(View.GONE);
         }else{
             fab.setVisibility(View.VISIBLE);
         }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AdminMeetingActivity.this,AdminMeetingDetailActivity.class));
+                startActivity(new Intent(AdminEventActivity.this, AdminAddNewEvent.class));
+
             }
         });
     }
@@ -88,34 +81,31 @@ public class AdminMeetingActivity extends AppCompatActivity implements TextWatch
     private void hideProgressView(){
         progressView.setVisibility(View.INVISIBLE);
     }
-
-
     private void showProgressView(){
         progressView.setVisibility(View.VISIBLE);
     }
-
 
     private void loadNotification(){
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                meetingDetailList.clear();
+                notificationDetailList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    meetingDetailList.add(snapshot.getValue(MeetingDetail.class));
+                    notificationDetailList.add(snapshot.getValue(NotificationDetail.class));
                 }
-                if (!meetingDetailList.isEmpty()) {
+                if (!notificationDetailList.isEmpty()) {
                     emptyView.setVisibility(View.INVISIBLE);
-                    Collections.reverse(meetingDetailList);
-                    filteredmeetingDetailList = meetingDetailList;
+                    Collections.reverse(notificationDetailList);
                     recyclerView.setVisibility(View.VISIBLE);
-                    recyclerView.setAdapter(new MeetingAdapter(meetingDetailList, AdminMeetingActivity.this,userType));
-                    searchBar.addTextChangedListener(AdminMeetingActivity.this);
+                    recyclerView.setAdapter(new EventAdapter(notificationDetailList, AdminEventActivity.this,userType));
+
                 } else {
                     emptyView.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.INVISIBLE);
                 }
                 hideProgressView();
+                //geometricProgressView.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -126,39 +116,8 @@ public class AdminMeetingActivity extends AppCompatActivity implements TextWatch
         });
     }
 
-
-    private void searchInList(String searchName){
-
-        List<MeetingDetail> memeberListToReturn =  new ArrayList<>();
-
-        filteredmeetingDetailList = meetingDetailList;
-        for(MeetingDetail memeber: filteredmeetingDetailList){
-            if(memeber.getTitle().toLowerCase().contains(searchName)
-                    || memeber.getTopic().toLowerCase().contains(searchName)){
-                memeberListToReturn.add(memeber);
-            }
-        }
-        recyclerView.setAdapter(new MeetingAdapter(memeberListToReturn, AdminMeetingActivity.this,userType));
-    }
-
-
-
     private void makeToast(String message) {
-        Toast.makeText(AdminMeetingActivity.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(AdminEventActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        searchInList(charSequence.toString().trim().toLowerCase());
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-
-    }
 }

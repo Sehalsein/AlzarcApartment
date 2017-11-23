@@ -56,7 +56,6 @@ public class AdminApartmentDetail extends Fragment implements TextWatcher{
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_admin_apartment_detail, container, false);
 
-
         searchBar = layout.findViewById(R.id.editTextSearch);
         NODE = getResources().getString(R.string.firebase_database_node_apartment_detail);
         mRef = mDatabase.getReference(NODE);

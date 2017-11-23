@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sehalsein.alzarcapartment.AdminActivities.AdminMeetingActivity"
-    tools:showIn="@layout/activity_admin_meeting">
+    tools:context="com.sehalsein.alzarcapartment.AdminActivities.AdminEventActivity"
+    tools:showIn="@layout/activity_admin_event">
 
     <net.bohush.geometricprogressview.GeometricProgressView
         android:id="@+id/progressView"
@@ -24,32 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:padding="2dp"
-                android:src="@drawable/ic_search_black_24dp" />
-
-            <EditText
-                android:id="@+id/editTextSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:background="@null"
-                android:hint="Search by Security Name"
-                android:padding="10dp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -77,7 +51,7 @@
             android:layout_centerVertical="true"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Security"
+            android:text="Events"
             android:id="@+id/title"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -90,7 +64,7 @@
             android:layout_below="@id/title"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:text="You dont have any security."
+            android:text="You dont have any events."
             android:textSize="18sp"
             android:gravity="center"/>
 
