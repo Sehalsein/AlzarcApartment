@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sehalsein.alzarcapartment">
+    package="com.pavigeeth.alzarcapartment">
 
     <application
         android:allowBackup="true"
@@ -38,7 +38,9 @@
             android:label="@string/title_activity_admin_event"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AdminActivities.AdminAddNewEvent" />
-        <activity android:name=".AdminActivities.AdminEditOwnerDetail"></activity>
+        <activity android:name=".AdminActivities.AdminEditOwnerDetail" />
+        <activity android:name=".AdminActivities.ViewMeetingDetail" />
+        <activity android:name=".AdminActivities.ViewSecurityDetail"></activity>
     </application>
 
 </manifest>
