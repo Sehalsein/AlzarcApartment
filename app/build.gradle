@@ -45,6 +45,8 @@ dependencies {
     compile 'gun0912.ted:tedpermission:2.0.0'
     compile 'gun0912.ted:tedbottompicker:1.0.12'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
+    compile 'com.github.sharish:CreditCardView:v1.0.4'
+
 }
 
 configurations.all {

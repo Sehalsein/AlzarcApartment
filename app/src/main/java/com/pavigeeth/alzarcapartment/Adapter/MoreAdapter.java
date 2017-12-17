@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cooltechworks.creditcarddesign.CardEditActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.pavigeeth.alzarcapartment.Activities.LoginActivity;
 import com.pavigeeth.alzarcapartment.AdminActivities.AdminEventActivity;
@@ -61,6 +62,11 @@ public class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         break;
                     case "adminEvent":
                         openEventAdmin();
+                        break;
+                    case "pay":
+                        final int GET_NEW_CARD = 2;
+                        Intent intents = new Intent(context, CardEditActivity.class);
+                        context.startActivity(intents);
                         break;
                     case "Logout":
                         FirebaseAuth.getInstance().signOut();

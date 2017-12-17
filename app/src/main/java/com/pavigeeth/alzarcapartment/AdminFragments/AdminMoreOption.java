@@ -51,6 +51,7 @@ public class AdminMoreOption extends Fragment {
                     "Meetings",
                     "Security",
                     "Event",
+                    "Pay Maintaince",
                     "Logout",
             };
 
@@ -59,20 +60,23 @@ public class AdminMoreOption extends Fragment {
                     "View security detail",
                     "View event detail",
                     "",
+                    "",
             };
 
             String code[] = {
                     "adminMeeting",
                     "adminSecurity",
                     "adminEvent",
+                    "pay",
                     "Logout",
             };
 
             int icons[] = {
-                    R.drawable.ic_notifications_black_24dp,
-                    R.drawable.ic_notifications_black_24dp,
-                    R.drawable.ic_notifications_black_24dp,
-                    R.drawable.ic_notifications_black_24dp,
+                    R.drawable.ic_people_outline_black_24dp,
+                    R.drawable.ic_security_black_24dp,
+                    R.drawable.ic_event_black_24dp,
+                    R.drawable.ic_credit_card_black_24dp,
+                    R.drawable.ic_exit_to_app_black_24dp,
             };
 
             result = new ArrayList<MoreOption>();
