@@ -40,10 +40,16 @@
         <activity android:name=".AdminActivities.AdminAddNewEvent" />
         <activity android:name=".AdminActivities.AdminEditOwnerDetail" />
         <activity android:name=".AdminActivities.ViewMeetingDetail" />
-        <activity android:name=".AdminActivities.ViewSecurityDetail"></activity>
-        <activity android:name="com.cooltechworks.creditcarddesign.CardEditActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity android:name=".AdminActivities.ViewSecurityDetail" />
+        <activity
+            android:name="com.cooltechworks.creditcarddesign.CardEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.GalleryViewActivity"
+            android:label="@string/title_activity_gallery_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.ViewImageActivity" />
+        <activity android:name=".Activities.AttendanceMeeting"></activity>
     </application>
 
 </manifest>

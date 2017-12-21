@@ -110,6 +110,7 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListAdap
                                 })
                                 .createDialog();
                         dialog.show();
+                        break;
                     case "user":
                         makeToast("User");
                         break;

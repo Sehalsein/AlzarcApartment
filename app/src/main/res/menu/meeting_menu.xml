@@ -7,6 +7,11 @@
         <menu>
 
             <item
+                android:id="@+id/people"
+                android:icon="@drawable/ic_people_outline_black_24dp"
+                android:title="Memebers Attendance" />
+
+            <item
                 android:id="@+id/delete"
                 android:icon="@drawable/ic_delete_black_24dp"
                 android:title="delete" />

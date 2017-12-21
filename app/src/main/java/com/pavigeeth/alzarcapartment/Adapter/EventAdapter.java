@@ -1,6 +1,7 @@
 package com.pavigeeth.alzarcapartment.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pavigeeth.alzarcapartment.Activities.GalleryViewActivity;
 import com.pavigeeth.alzarcapartment.Model.NotificationDetail;
 import com.pavigeeth.alzarcapartment.R;
 
@@ -74,13 +76,16 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
                                 .expandOnStart(true)
                                 .setMode(BottomSheetBuilder.MODE_LIST)
-                                .setMenu(R.menu.bottom_menu)
+                                .setMenu(R.menu.event_menu)
                                 .setItemClickListener(new BottomSheetItemClickListener() {
                                     @Override
                                     public void onBottomSheetItemClick(MenuItem item) {
                                         switch (item.getItemId()) {
                                             case R.id.delete:
                                                 myRef.child(notificationDetail.getId()).setValue(null);
+                                                break;
+                                            case R.id.images:
+                                                viewGallery(notificationDetail);
                                                 break;
                                         }
                                     }
@@ -105,6 +110,11 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
 
+    private void viewGallery(NotificationDetail notificationDetail){
+        Intent intent = new Intent(context, GalleryViewActivity.class);
+        intent.putExtra("EVENTID",notificationDetail.getId()+"");
+        context.startActivity(intent);
+    }
     private static String getCurrentTimeStamp(){
         try {
 

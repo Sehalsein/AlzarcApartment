@@ -48,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     private static String NODE = null;
     private static String phoneNumber;
     private FlatDetail flatDetail;
-   // private String adminNumber ="8722564630";
-    private String adminNumber ="7019823512";
+    private String adminNumber ="8722564630";
+   // private String adminNumber ="7019823512";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 UserData.userType = "user";
             }
-            openAdminPage();
-            //phoneVerification();
+            //openAdminPage();phoneVerification();
         } else {
             phoneNumberEditText.setError("Please enter a valid phone number!!");
         }

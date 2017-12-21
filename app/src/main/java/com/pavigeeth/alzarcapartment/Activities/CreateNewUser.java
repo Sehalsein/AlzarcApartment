@@ -21,12 +21,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.pavigeeth.alzarcapartment.Adapter.ApartmentListAdapter;
+import com.pavigeeth.alzarcapartment.AdminFragments.AdminApartmentDetail;
 import com.pavigeeth.alzarcapartment.Model.FlatDetail;
 import com.pavigeeth.alzarcapartment.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CreateNewUser extends AppCompatActivity {
 
@@ -47,6 +54,8 @@ public class CreateNewUser extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
     private static String NODE = null;
+    private List<FlatDetail> flatDetailList =  new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,27 @@ public class CreateNewUser extends AppCompatActivity {
         occupationEditText = findViewById(R.id.occupation_edit_text);
         familyMemberEditText = findViewById(R.id.family_member_edit_text);
 
+        loadList();
+    }
+
+
+    private void loadList(){
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                flatDetailList.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    flatDetailList.add(snapshot.getValue(FlatDetail.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                //   Toast.makeText(this, "Something went wrong while searching", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
@@ -158,7 +188,13 @@ public class CreateNewUser extends AppCompatActivity {
         if (validate()) {
             //makeToast("SAD");
             // if (mAuth.getCurrentUser() == null) {
-            phoneVerification();
+            //makeToast(checkifExist()+"");
+            if(checkifExist()){
+                makeToast("This apartment is already registered. Please contact the president regarding any issues");
+            }else{
+                phoneVerification();
+            }
+            //phoneVerification();
             //}
         } else {
             makeToast("Please fill in all the information");
@@ -167,6 +203,19 @@ public class CreateNewUser extends AppCompatActivity {
 
     private boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;
+    }
+
+    private boolean checkifExist(){
+        for (int i=0;i<flatDetailList.size();i++){
+            String listblockno = flatDetailList.get(i).getBlockNo() + ""+ flatDetailList.get(i).getDoorNo();
+            String blockno = flatDetail.getBlockNo()+""+flatDetail.getDoorNo();
+
+            if(listblockno.equals(blockno)){
+                return true;
+            }
+
+        }
+        return false;
     }
 
     private boolean validate() {
@@ -210,6 +259,17 @@ public class CreateNewUser extends AppCompatActivity {
             email = emailEditText.getText().toString();
         }
 
+
+
+        if (isEmpty(blockEditText)) {
+            blockEditText.setError("Enter block name");
+            blockCheck = false;
+        } else {
+            blockCheck = true;
+            block = blockEditText.getText().toString().toUpperCase();
+        }
+
+
         if (isEmpty(doorNoEditText)) {
             doorNoEditText.setError("Enter door no");
             doorNoCheck = false;
@@ -217,15 +277,24 @@ public class CreateNewUser extends AppCompatActivity {
             doorNoCheck = true;
             doorNo = doorNoEditText.getText().toString();
         }
+        switch (block.toUpperCase()){
+            case "A":
+                doorNoCheck = isDoorNoValid(Integer.parseInt(doorNo),100,121);
+                break;
+            case "B":
+                doorNoCheck = isDoorNoValid(Integer.parseInt(doorNo),200,221);
+                break;
+            case "C":
+                doorNoCheck = isDoorNoValid(Integer.parseInt(doorNo),300,321);
+                break;
+            case "D":
+                doorNoCheck = isDoorNoValid(Integer.parseInt(doorNo),400,421);
+                break;
+            case "E":
+                doorNoCheck = isDoorNoValid(Integer.parseInt(doorNo),500,521);
+                break;
 
-        if (isEmpty(blockEditText)) {
-            blockEditText.setError("Enter block name");
-            blockCheck = false;
-        } else {
-            blockCheck = true;
-            block = blockEditText.getText().toString();
         }
-
         if (isEmpty(occupationEditText)) {
             occupationEditText.setError("Enter occupation");
             occupationCheck = false;
@@ -253,6 +322,15 @@ public class CreateNewUser extends AppCompatActivity {
             flatDetail.setFamilyMembers(familyMember);
             return true;
         } else {
+            return false;
+        }
+    }
+
+    private boolean isDoorNoValid(int doorno,int fromno,int tono){
+        if(doorno> fromno && doorno < tono){
+            return true;
+        }else{
+            doorNoEditText.setError("Enter valid door no");
             return false;
         }
     }

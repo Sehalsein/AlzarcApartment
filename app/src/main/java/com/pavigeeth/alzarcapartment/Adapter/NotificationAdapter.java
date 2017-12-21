@@ -47,7 +47,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.notificationDetailList = notificationDetailList;
         this.context = context;
         this.userType = userType;
-        NODE = context.getResources().getString(R.string.firebase_database_node_notifications);
+        NODE = "notifications";
         myRef = database.getReference(NODE);
     }
 

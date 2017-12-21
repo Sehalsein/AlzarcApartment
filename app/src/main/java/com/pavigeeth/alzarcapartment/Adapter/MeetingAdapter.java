@@ -15,7 +15,9 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pavigeeth.alzarcapartment.Activities.AttendanceMeeting;
 import com.pavigeeth.alzarcapartment.AdminActivities.AdminMeetingDetailActivity;
+import com.pavigeeth.alzarcapartment.AdminActivities.ViewMeetingDetail;
 import com.pavigeeth.alzarcapartment.Miscellaneous.UserData;
 import com.pavigeeth.alzarcapartment.Model.MeetingDetail;
 import com.pavigeeth.alzarcapartment.R;
@@ -75,6 +77,8 @@ public class MeetingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                makeToast(userType);
                 switch (userType){
                     case "admin":
                         openMeetingDetail(notificationDetail);
@@ -96,13 +100,20 @@ public class MeetingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
                                 .expandOnStart(true)
                                 .setMode(BottomSheetBuilder.MODE_LIST)
-                                .setMenu(R.menu.bottom_menu)
+                                .setMenu(R.menu.meeting_menu)
                                 .setItemClickListener(new BottomSheetItemClickListener() {
                                     @Override
                                     public void onBottomSheetItemClick(MenuItem item) {
                                         switch (item.getItemId()) {
                                             case R.id.delete:
                                                 myRef.child(notificationDetail.getId()).setValue(null);
+                                                break;
+                                            case R.id.people:
+
+                                                Intent intent = new Intent(context, AttendanceMeeting.class);
+                                                intent.putExtra("EXTRA_ID", notificationDetail.getId());
+                                                context.startActivity(intent);
+                                                //context.startActivity(new Intent(context, AttendanceMeeting.class));
                                                 break;
                                         }
                                     }
