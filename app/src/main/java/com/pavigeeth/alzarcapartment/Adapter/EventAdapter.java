@@ -95,6 +95,22 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         //openOwnerDetailAdmin(detail);
                         break;
                     case "user":
+                        BottomSheetMenuDialog dialog1 = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+                                .expandOnStart(true)
+                                .setMode(BottomSheetBuilder.MODE_LIST)
+                                .setMenu(R.menu.event_menu_user)
+                                .setItemClickListener(new BottomSheetItemClickListener() {
+                                    @Override
+                                    public void onBottomSheetItemClick(MenuItem item) {
+                                        switch (item.getItemId()) {
+                                            case R.id.images:
+                                                viewGallery(notificationDetail);
+                                                break;
+                                        }
+                                    }
+                                })
+                                .createDialog();
+                        dialog1.show();
                         // makeToast("User");
                         break;
                     default:
